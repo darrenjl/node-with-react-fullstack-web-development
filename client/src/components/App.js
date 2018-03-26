@@ -12,7 +12,10 @@ const App = () => {
       {/* BrowserRouter expects exactly one child  */}
       <BrowserRouter>
         <div>
-          <Route path="/" component={Landing} />
+        {/* exact translates to exact={true} */}
+          <Route exact path="/" component={Landing} />
+          <Route path="/surveys" component={Dashboard} />
+          <Route path="/surveys/new" component={SurveyNew} />
         </div>
       </BrowserRouter>
     </div>
