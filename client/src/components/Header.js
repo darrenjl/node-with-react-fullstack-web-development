@@ -17,7 +17,7 @@ class Header extends Component {
         );
       default:
         return [
-          <li key="credits" style={{ paddingRight: '20px'}}>
+          <li key="credits" style={{ margin: '0 20px'}}>
             Credits: {this.props.auth.credits}
           </li>,
           <li key="payments">
