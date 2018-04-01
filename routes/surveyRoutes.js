@@ -1,7 +1,9 @@
+const mongoose = require("mongoose");
 const keys = require("../config/keys");
 const requireLogin = require("../middlewares/requireLogin");
 const requireCredits = require("../middlewares/requireCredits");
-const mongoose = require("mongoose");
+const Mailer = require("../services/Mailer");
+const surveyTemplate = require("../services/emailTemplates/surveyTemplate")
 const Survey = mongoose.model("surveys");
 
 module.exports = app => {
@@ -10,15 +12,20 @@ module.exports = app => {
     res.send(surveys);
   });
 
-  app.post("/api/surveys", async (req, res) => {
+  app.post("/api/surveys", requireLogin, requireCredits, (req, res) => {
     const { title, subject, body, recepients } = req.body;
-    const survey = await new Survey({
+    const survey = new Survey({
       title,
       subject,
       body,
       recepients: recepients.split(',').map(email => ({ email: email.trim() })),
       dateSent: Date.now()
-    }).save();
+    });
+    const mailer = new Mailer(survey, surveyTemplate(survey));
+
+    mailer.send();
+
+
     console.log(survey);
     res.sendStatus(201);
   });
