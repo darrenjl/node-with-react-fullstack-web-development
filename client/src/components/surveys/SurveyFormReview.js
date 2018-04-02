@@ -1,14 +1,32 @@
-import React, { Component } from "react";
-import SurveyForm from "./SurveyForm"
+import _ from "lodash";
+import React from "react";
+import { connect } from "react-redux";
+import formFields from "./formFields";
 
-class SurveyFormReview extends Component {
-  render() {
+const SurveyFormReview = ({ onCancel, formValues }) => {
+  const reviewFields = _.map(formFields, ({ label, name }) => {
     return (
-      <div>
-        Survey Form Review!
+      <div key={name}>
+        <label>{label}</label>
+        <div>{formValues[name]}</div>
       </div>
     );
-  }
+  });
+  return (
+    <div>
+      <h5>Confirm</h5>
+      {reviewFields}
+      <button className="yellow darken-3 btn-flat" onClick={onCancel}>
+        Back
+      </button>
+    </div>
+  );
+};
+
+function mapStateToProps(state) {
+  return {
+    formValues: state.form.surveyForm.values
+  };
 }
 
-export default SurveyFormReview;
+export default connect(mapStateToProps)(SurveyFormReview);
