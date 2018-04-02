@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const RecepientSchema = require('./Recepient');
+const RecipientSchema = require('./Recipient');
 
 const surveySchema = new Schema({
     title: String,
     subject: String,
     body: String,
-    recepients: [RecepientSchema],
+    recipients: [RecipientSchema],
     yes: {type: Number, default: 0},
     no: {type: Number, default: 0},
     // convention _user to indicate relationship field
