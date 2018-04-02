@@ -11,3 +11,8 @@ export const handleToken = token => async dispatch => {
   // assume endpoint returns updated user after stripe purchase
   dispatch({ type: FETCH_USER, payload: res.data });
 };
+
+export const submitSurvey = values => {
+  console.log('submit survey action with values: ' + values);
+  return { type: 'submit_survey'}
+};
