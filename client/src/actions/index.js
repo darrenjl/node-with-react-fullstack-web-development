@@ -12,7 +12,10 @@ export const handleToken = token => async dispatch => {
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
-export const submitSurvey = values => {
+export const submitSurvey = (values, history) => async dispatch => {
   console.log('submit survey action with values: ' + values);
-  return { type: 'submit_survey'}
+  const res = await axios.post("/api/surveys", values);
+  history.push('/surveys');
+  // assume endpoint returns updated user after stripe purchase
+  dispatch({ type: FETCH_USER, payload: res.data });
 };
