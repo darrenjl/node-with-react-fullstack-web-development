@@ -1,3 +1,6 @@
+const _ = require("lodash");
+const { Path } = require("path-parser");
+const { URL } = require("url");
 const mongoose = require("mongoose");
 const keys = require("../config/keys");
 const requireLogin = require("../middlewares/requireLogin");
@@ -39,7 +42,21 @@ module.exports = app => {
   });
 
   app.post("/api/surveys/webhooks", (req, res) => {
-    console.log(req.body);
+    const p = Path.createPath("/api/surveys/:surveyId/:choice");
+
+    const uniqueEvents = _.chain(req.body)
+      .map(({ email, url }) => {
+        const match = p.test(new URL(url).pathname);
+        if (match) {
+          return { email, surveyId: match.surveyId, choice: match.choice };
+        }
+      })
+      .compact()
+      .uniqBy("email", "surveyId")
+      .value();
+
+    console.log(uniqueEvents);
+
     res.send({});
   });
 };
