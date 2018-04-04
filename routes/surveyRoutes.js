@@ -10,7 +10,7 @@ const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 const Survey = mongoose.model("surveys");
 
 module.exports = app => {
-  app.get("/api/surveys/thanks", (req, res) => {
+  app.get("/api/surveys/:surveyId/:choice", (req, res) => {
     res.send("Thanks for your feedback");
   });
 
@@ -43,9 +43,12 @@ module.exports = app => {
 
   app.post("/api/surveys/webhooks", (req, res) => {
     const p = Path.createPath("/api/surveys/:surveyId/:choice");
-
-    const uniqueEvents = _.chain(req.body)
+    console.log("Webhook request received");
+    //don't need to handle as asynchronous because we don't
+    //need to respond to sendgrid with any specific dta
+    _.chain(req.body)
       .map(({ email, url }) => {
+        console.log("Attempting to match: " + url + ", " + email);
         const match = p.test(new URL(url).pathname);
         if (match) {
           return { email, surveyId: match.surveyId, choice: match.choice };
@@ -53,9 +56,22 @@ module.exports = app => {
       })
       .compact()
       .uniqBy("email", "surveyId")
+      .each(({ surveyId, email, choice }) => {
+        Survey.updateOne(
+          {
+            _id: surveyId,
+            recipients: {
+              $elemMatch: { email: email, responded: false }
+            }
+          },
+          {
+            $inc: { [choice]: 1 },
+            $set: { "recipients.$.responded": true },
+            lastResponded: new Date()
+          }
+        ).exec();
+      })
       .value();
-
-    console.log(uniqueEvents);
 
     res.send({});
   });
