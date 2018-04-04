@@ -9,7 +9,7 @@ I built this application by following along with the udemy course: Following alo
 
 ### Prerequisites
 
-This sample application integrates with free services for authentication([Google](https://console.developers.google.com)), email([SendGrid](https://sendgrid.com/)). In developing the application, I also used [mlab](https://mlab.com/) to host the mongo database and [Heroku](https://dashboard.heroku.com) for deployment but these are not hard requirements. 
+This sample application integrates with free services for authentication([Google](https://console.developers.google.com)), email([SendGrid](https://sendgrid.com/)) and test payments([Stripe](https://dashboard.stripe.com/test/dashboard)). In developing the application, I also used [mlab](https://mlab.com/) to host the mongo database and [Heroku](https://dashboard.heroku.com) for deployment but these are not hard requirements. 
 
 For local development you need to have node and npm installed.
 
@@ -22,10 +22,12 @@ Clone the project:
 git clone https://github.com/darrenjl/sample-mern-app.git
 ```
 
-Copy prod.js to dev.js and replace all the keys with your own:
+Copy prod.js to dev.js: 
 ```
 cp config/prod.js config/dev.js
 ```
+
+Replace all the keys in dev.js with your own. Also need to replace the Stripe public key in .env.development and .env.production.
 
 Install all server and client dependencies:
 ```
