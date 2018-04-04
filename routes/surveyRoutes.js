@@ -14,9 +14,16 @@ module.exports = app => {
     res.send("Thanks for your feedback");
   });
 
-  app.get("/api/surveys", requireLogin, async (req, res) => {
-    const surveys = await Survey.find();
-    res.send(surveys);
+  app.get("/api/surveys", async (req, res) => {
+    try {
+      const surveys = await Survey.find({
+        _user: req.user.id
+      }).select({ recipients: false });
+      res.send(surveys);
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
   });
 
   app.post("/api/surveys", requireLogin, requireCredits, async (req, res) => {
@@ -26,7 +33,8 @@ module.exports = app => {
       subject,
       body,
       recipients: recipients.split(",").map(email => ({ email: email.trim() })),
-      dateSent: Date.now()
+      dateSent: Date.now(),
+      _user: req.user.id
     });
     const mailer = new Mailer(survey, surveyTemplate(survey));
     try {
