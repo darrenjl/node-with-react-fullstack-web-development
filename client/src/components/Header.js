@@ -1,7 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { withStyles } from "material-ui/styles";
+import AppBar from "material-ui/AppBar";
+import Toolbar from "material-ui/Toolbar";
+import Typography from "material-ui/Typography";
+import Button from "material-ui/Button";
 import Payments from "./Payments";
+
+const styles = {
+  root: {
+    flexGrow: 1
+  },
+  flex: {
+    flex: 1
+  }
+};
 
 class Header extends Component {
   renderContent() {
@@ -10,42 +24,44 @@ class Header extends Component {
         return;
       case false:
         return (
-          <li>
-            <a href="/auth/google">Login with google</a>
-          </li>
+          <Button href="/auth/google">
+            Login with google
+          </Button>
         );
       default:
-        return [
-          <li key="credits" style={{ margin: '0 20px'}}>
-            Credits: {this.props.auth.credits}
-          </li>,
-          <li key="payments">
+        return (
+          <div>
+            <Typography component="div">
+              Credits: {this.props.auth.credits}
+            </Typography>
             <Payments />
-          </li>,
-          <li key="logout">
-            <a href="/api/logout">Logout</a>
-          </li>
-        ];
+            <Button href="/api/logout">
+              Logout
+            </Button>
+          </div>
+        );
     }
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <nav>
-        <div className="nav-wrapper">
-          <Link
-            to={this.props.auth ? "/surveys" : "/"}
-            className="left brand-logo"
-          >
-            Emaily
-          </Link>
-
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
+      <div className={classes.root}>
+        <AppBar position="static">
+          <Toolbar>
+            {/* <Button component={Link} to={this.props.auth ? "/surveys" : "/"}> */}
+            <Typography
+              variant="title"
+              color="inherit"
+              className={classes.flex}
+            >
+              Emaily
+            </Typography>
+            {/* </Button> */}
             {this.renderContent()}
-            {/*  */}
-          </ul>
-        </div>
-      </nav>
+          </Toolbar>
+        </AppBar>
+      </div>
     );
   }
 }
@@ -54,4 +70,4 @@ function mapStateToProps({ auth }) {
   return { auth };
 }
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps)(withStyles(styles)(Header));

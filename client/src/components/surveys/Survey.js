@@ -1,19 +1,49 @@
-import React from "react";
+import React, { Component } from "react";
+import { withStyles } from "material-ui/styles";
+import Card, { CardActions, CardContent } from "material-ui/Card";
+import Button from "material-ui/Button";
+import Typography from "material-ui/Typography";
 
-export default ({ survey }) => {
-  console.log(survey);
-  return (
-    <div className="card blue-grey darken-1">
-      <div className="card-content white-text">
-        <span className="card-title">{survey.title}</span>
-        <p>{survey.body}</p>
-        <p className="right">Sent on: {new Date(survey.dateSent).toLocaleDateString()}</p>
-        <p>Last response: {survey.lastResponded ? new Date(survey.lastResponded).toLocaleDateString() : ''}</p>
-      </div>
-      <div class="card-action">
-          <a>Yes: {survey.yes}</a>
-          <a>No: {survey.no}</a>
-        </div>
-    </div>
-  );
+const styles = {
+  card: {
+    marginBottom: 12
+  },
+  title: {
+    marginBottom: 16,
+    fontSize: 14
+  },
+  pos: {
+    marginBottom: 12
+  }
 };
+
+class Survey extends Component {
+  render() {
+    const survey = this.props.survey;
+    console.log(survey);
+    const { classes } = this.props;
+    return (
+      <div>
+        <Card className={classes.card}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary">
+              {survey.title}
+            </Typography>
+            <Typography className={classes.pos} component="p">
+              {survey.body}
+            </Typography>
+            <Typography color="textSecondary" className="right">
+              Sent on: {new Date(survey.dateSent).toLocaleDateString()}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Yes: {survey.yes}</Button>
+            <Button size="small">No: {survey.no}</Button>
+          </CardActions>
+        </Card>
+      </div>
+    );
+  }
+}
+
+export default withStyles(styles)(Survey);
