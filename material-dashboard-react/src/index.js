@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
 
-import "assets/css/material-dashboard-react.css";
+import "mdassets/css/material-dashboard-react.css";
 
 import indexRoutes from "routes/index.jsx";
 import reducers from "reducers";

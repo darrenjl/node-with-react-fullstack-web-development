@@ -7,14 +7,15 @@ import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import { withStyles } from "material-ui";
 
-import { Header, Footer, Sidebar } from "components";
+import { Footer, Sidebar } from "mdcomponents";
+import { Header } from "components";
 
 import appRoutes from "routes/app.jsx";
 
-import appStyle from "variables/styles/appStyle.jsx";
+import appStyle from "mdvariables/styles/appStyle.jsx";
 
-import image from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/reactlogo.png";
+import image from "mdassets/img/sidebar-2.jpg";
+import logo from "mdassets/img/reactlogo.png";
 
 import * as actions from "../../actions";
 

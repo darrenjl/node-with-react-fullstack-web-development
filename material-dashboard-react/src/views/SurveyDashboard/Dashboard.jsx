@@ -6,7 +6,7 @@ import * as actions from "../../actions";
 
 import { Survey } from "components";
 
-import dashboardStyle from "variables/styles/dashboardStyle";
+import dashboardStyle from "mdvariables/styles/dashboardStyle";
 
 class Dashboard extends React.Component {
   state = {

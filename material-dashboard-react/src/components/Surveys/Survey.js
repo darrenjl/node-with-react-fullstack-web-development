@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Button from "material-ui/Button";
-import { RegularCard, ItemGrid } from "components";
+import { RegularCard, ItemGrid } from "mdcomponents";
 
 class Survey extends Component {
   render() {
