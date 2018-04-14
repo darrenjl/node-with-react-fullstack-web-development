@@ -12,7 +12,7 @@ import {
   ClickAwayListener,
   Hidden
 } from "material-ui";
-import { Person, Notifications, Dashboard, Search } from "material-ui-icons";
+import { Person, Search } from "material-ui-icons";
 
 import { CustomInput, IconButton as SearchButton, Button } from "components";
 
@@ -26,9 +26,13 @@ class HeaderLinks extends React.Component {
     this.setState({ open: !this.state.open });
   };
 
-  handleLogout = () => {
+  handleClose = () => {
     this.setState({ open: false });
-    window.location = '/api/logout';
+  };
+
+  handleLogout = () => {
+    this.handleClose();
+    window.location = "/api/logout";
   };
 
   renderLoggedOutContent() {
@@ -62,16 +66,6 @@ class HeaderLinks extends React.Component {
         >
           <Search className={classes.searchIcon} />
         </SearchButton>
-        <IconButton
-          color="inherit"
-          aria-label="Dashboard"
-          className={classes.buttonLink}
-        >
-          <Dashboard className={classes.links} />
-          <Hidden mdUp>
-            <p className={classes.linkText}>Dashboard</p>
-          </Hidden>
-        </IconButton>
         <Manager style={{ display: "inline-block" }}>
           <Target>
             <IconButton
@@ -108,6 +102,12 @@ class HeaderLinks extends React.Component {
                 <Paper className={classes.dropdown}>
                   <MenuList role="menu">
                     <MenuItem
+                      onClick={this.handleClose}
+                      className={classes.dropdownItem}
+                    >
+                      Credits: {this.props.auth.credits}
+                    </MenuItem>
+                    <MenuItem
                       onClick={this.handleLogout}
                       className={classes.dropdownItem}
                     >
@@ -124,8 +124,6 @@ class HeaderLinks extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-    const { open } = this.state;
     if (this.props.auth) {
       return this.renderLoggedInContent();
     }

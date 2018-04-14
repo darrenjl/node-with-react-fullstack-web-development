@@ -54,6 +54,12 @@ import Snackbar from "./Snackbar/Snackbar.jsx";
 import SnackbarContent from "./Snackbar/SnackbarContent.jsx";
 
 // ##############################
+// // // Surveys
+// #############################
+
+import Survey from "./Surveys/Survey";
+
+// ##############################
 // // // Table
 // #############################
 
@@ -104,6 +110,8 @@ export {
   //Snackbar
   Snackbar,
   SnackbarContent,
+  // Surveys
+  Survey,
   // Table
   Table,
   // Tasks
