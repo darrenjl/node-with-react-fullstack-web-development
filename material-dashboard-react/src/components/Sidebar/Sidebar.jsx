@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import cx from "classnames";
@@ -21,7 +22,7 @@ const Sidebar = ({ ...props }) => {
   function activeRoute(routeName) {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
-  const { classes, color, logo, image, logoText, routes } = props;
+  const { classes, color, logo, image, logoText, routes, auth } = props;
   var links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
@@ -82,7 +83,7 @@ const Sidebar = ({ ...props }) => {
           {brand}
           <div className={classes.sidebarWrapper}>
             <HeaderLinks />
-            {links}
+            {auth ? links : null}
           </div>
           {image !== undefined ? (
             <div
@@ -102,7 +103,7 @@ const Sidebar = ({ ...props }) => {
           }}
         >
           {brand}
-          <div className={classes.sidebarWrapper}>{links}</div>
+          <div className={classes.sidebarWrapper}>{auth ? links : null}</div>
           {image !== undefined ? (
             <div
               className={classes.background}
@@ -119,4 +120,8 @@ Sidebar.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(sidebarStyle)(Sidebar);
+function mapStateToProps({ auth }) {
+  return { auth };
+}
+
+export default connect(mapStateToProps)(withStyles(sidebarStyle)(Sidebar));

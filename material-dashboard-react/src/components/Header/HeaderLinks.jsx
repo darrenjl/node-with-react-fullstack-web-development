@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import classNames from "classnames";
 import { Manager, Target, Popper } from "react-popper";
 import {
@@ -13,7 +14,7 @@ import {
 } from "material-ui";
 import { Person, Notifications, Dashboard, Search } from "material-ui-icons";
 
-import { CustomInput, IconButton as SearchButton } from "components";
+import { CustomInput, IconButton as SearchButton, Button } from "components";
 
 import headerLinksStyle from "variables/styles/headerLinksStyle";
 
@@ -25,10 +26,20 @@ class HeaderLinks extends React.Component {
     this.setState({ open: !this.state.open });
   };
 
-  handleClose = () => {
+  handleLogout = () => {
     this.setState({ open: false });
+    window.location = '/api/logout';
   };
-  render() {
+
+  renderLoggedOutContent() {
+    return (
+      <Button color="primary" href="/auth/google">
+        Login with google
+      </Button>
+    );
+  }
+
+  renderLoggedInContent() {
     const { classes } = this.props;
     const { open } = this.state;
     return (
@@ -65,17 +76,16 @@ class HeaderLinks extends React.Component {
           <Target>
             <IconButton
               color="inherit"
-              aria-label="Notifications"
+              aria-label="Profile"
               aria-owns={open ? "menu-list" : null}
               aria-haspopup="true"
               onClick={this.handleClick}
               className={classes.buttonLink}
             >
-              <Notifications className={classes.links} />
-              <span className={classes.notifications}>5</span>
+              <Person className={classes.links} />
               <Hidden mdUp>
                 <p onClick={this.handleClick} className={classes.linkText}>
-                  Notification
+                  Profile
                 </p>
               </Hidden>
             </IconButton>
@@ -98,34 +108,10 @@ class HeaderLinks extends React.Component {
                 <Paper className={classes.dropdown}>
                   <MenuList role="menu">
                     <MenuItem
-                      onClick={this.handleClose}
+                      onClick={this.handleLogout}
                       className={classes.dropdownItem}
                     >
-                      Mike John responded to your email
-                    </MenuItem>
-                    <MenuItem
-                      onClick={this.handleClose}
-                      className={classes.dropdownItem}
-                    >
-                      You have 5 new tasks
-                    </MenuItem>
-                    <MenuItem
-                      onClick={this.handleClose}
-                      className={classes.dropdownItem}
-                    >
-                      You're now friend with Andrew
-                    </MenuItem>
-                    <MenuItem
-                      onClick={this.handleClose}
-                      className={classes.dropdownItem}
-                    >
-                      Another Notification
-                    </MenuItem>
-                    <MenuItem
-                      onClick={this.handleClose}
-                      className={classes.dropdownItem}
-                    >
-                      Another One
+                      Logout
                     </MenuItem>
                   </MenuList>
                 </Paper>
@@ -133,19 +119,24 @@ class HeaderLinks extends React.Component {
             </ClickAwayListener>
           </Popper>
         </Manager>
-        <IconButton
-          color="inherit"
-          aria-label="Person"
-          className={classes.buttonLink}
-        >
-          <Person className={classes.links} />
-          <Hidden mdUp>
-            <p className={classes.linkText}>Profile</p>
-          </Hidden>
-        </IconButton>
       </div>
     );
   }
+
+  render() {
+    const { classes } = this.props;
+    const { open } = this.state;
+    if (this.props.auth) {
+      return this.renderLoggedInContent();
+    }
+    return this.renderLoggedOutContent();
+  }
 }
 
-export default withStyles(headerLinksStyle)(HeaderLinks);
+function mapStateToProps({ auth }) {
+  return { auth };
+}
+
+export default connect(mapStateToProps)(
+  withStyles(headerLinksStyle)(HeaderLinks)
+);

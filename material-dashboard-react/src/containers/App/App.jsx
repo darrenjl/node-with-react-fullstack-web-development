@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -14,6 +15,8 @@ import appStyle from "variables/styles/appStyle.jsx";
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
+
+import * as actions from "../../actions";
 
 const switchRoutes = (
   <Switch>
@@ -40,7 +43,9 @@ class App extends React.Component {
       // eslint-disable-next-line
       const ps = new PerfectScrollbar(this.refs.mainPanel);
     }
+    this.props.fetchUser();
   }
+
   componentDidUpdate() {
     this.refs.mainPanel.scrollTop = 0;
   }
@@ -50,7 +55,7 @@ class App extends React.Component {
       <div className={classes.wrapper}>
         <Sidebar
           routes={appRoutes}
-          logoText={"Creative Tim"}
+          logoText={"Emaily"}
           logo={logo}
           image={image}
           handleDrawerToggle={this.handleDrawerToggle}
@@ -83,4 +88,4 @@ App.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(appStyle)(App);
+export default connect(null, actions)(withStyles(appStyle)(App));
