@@ -1,4 +1,5 @@
-import DashboardPage from "views/SurveyDashboard/Dashboard.jsx";
+import DashboardPage from "views/Survey/Dashboard.jsx";
+import SurveyNewPage from "views/Survey/SurveyNew";
 // import UserProfile from "mdviews/UserProfile/UserProfile.jsx";
 // import TableList from "mdviews/TableList/TableList.jsx";
 // import Typography from "mdviews/Typography/Typography.jsx";
@@ -8,6 +9,7 @@ import DashboardPage from "views/SurveyDashboard/Dashboard.jsx";
 
 import {
   Dashboard,
+  Add
   // Person,
   // ContentPaste,
   // LibraryBooks,
@@ -24,13 +26,13 @@ const appRoutes = [
     icon: Dashboard,
     component: DashboardPage
   },
-  // {
-  //   path: "/user",
-  //   sidebarName: "User Profile",
-  //   navbarName: "Profile",
-  //   icon: Person,
-  //   component: UserProfile
-  // },
+  {
+    path: "/surveys/new",
+    sidebarName: "Create survey",
+    navbarName: "Create survey",
+    icon: Add,
+    component: SurveyNewPage
+  },
   // {
   //   path: "/table",
   //   sidebarName: "Table List",
