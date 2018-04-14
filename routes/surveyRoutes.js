@@ -14,7 +14,7 @@ module.exports = app => {
     res.send("Thanks for your feedback");
   });
 
-  app.get("/api/surveys", async (req, res) => {
+  app.get("/api/surveys", requireLogin, async (req, res) => {
     try {
       const surveys = await Survey.find({
         _user: req.user.id

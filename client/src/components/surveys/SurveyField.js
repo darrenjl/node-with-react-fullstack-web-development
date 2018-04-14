@@ -1,11 +1,19 @@
 import React from "react";
+import CustomInput from "mdcomponents/CustomInput/CustomInput";
 
 export default ({ input, label, meta: { error, touched } }) => {
   return (
     <div>
-      <label>{label}</label>
-      <input {...input} style={{ marginBottom: '5px' }}/>
-      <div className="red-text" style={{ marginBottom: '20px' }}>{touched && error}</div>
+      <CustomInput
+        labelText={label}
+        inputProps={{...input}}
+        formControlProps={{
+          fullWidth: true
+        }}
+      />
+      <div style={{ marginBottom: "20px", color: "red" }}>
+        {touched && error}
+      </div>
     </div>
   );
 };

@@ -1,9 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { withStyles, Grid, Button } from "material-ui";
-import AddIcon from "material-ui-icons/Add";
+import { withStyles, Grid } from "material-ui";
 import * as actions from "../../actions";
 
 import { Survey } from "components";
@@ -35,19 +33,9 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <div>
         <Grid container>{this.renderSurveys()}</Grid>
-        <Button
-          variant="fab"
-          className={classes.fab}
-          component={Link}
-          to="/surveys/new"
-          color="primary"
-        >
-          <AddIcon />
-        </Button>
       </div>
     );
   }
