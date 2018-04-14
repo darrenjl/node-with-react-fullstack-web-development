@@ -15,6 +15,7 @@ import {
 import { Person, Search } from "material-ui-icons";
 
 import { CustomInput, IconButton as SearchButton, Button } from "mdcomponents";
+import { Payments } from "components";
 
 import headerLinksStyle from "mdvariables/styles/headerLinksStyle";
 
@@ -113,6 +114,9 @@ class HeaderLinks extends React.Component {
                     >
                       Logout
                     </MenuItem>
+                    <Payments>
+                      <MenuItem className={classes.dropdownItem}>Add credits</MenuItem>
+                    </Payments>
                   </MenuList>
                 </Paper>
               </Grow>
